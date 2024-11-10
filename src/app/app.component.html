@@ -5,7 +5,10 @@
     <app-separator>
       {{ letra }}
     </app-separator>
-    <app-contact name="Fulano" phone="1234567890"></app-contact>
+    @for (contact of filterContactsByInitialLetter(letra); track contact.id) {
+      <app-contact [name]="contact.name" [phone]="contact.phone"></app-contact>
+    }
+    
   }
 
 </app-container>
