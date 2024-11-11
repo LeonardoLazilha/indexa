@@ -5,7 +5,7 @@ import { ContainerComponent } from './components/container/container.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SeparatorComponent } from './components/separator/separator.component';
 import { ContactComponent } from './components/contact/contact.component';
-
+import { FormsModule } from '@angular/forms';
 import agenda from './agenda.json';
 
 
@@ -25,7 +25,8 @@ interface Contact {
     ContainerComponent, 
     HeaderComponent, 
     SeparatorComponent,
-    ContactComponent
+    ContactComponent,
+    FormsModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
@@ -34,10 +35,19 @@ export class AppComponent {
   alfabeto: string = 'abcdefghijklmnopqrstuvwxyz'
   contacts: Contact[] = agenda;
 
-  filterContactsByInitialLetter(letter: string): Contact[] {
+  filterBySearch: string = '';
+
+  filterContactsBySearch(): Contact[] {
+    if(!this.filterBySearch) {return this.contacts}
     return this.contacts.filter(contact => {
+      return contact.name.toLowerCase().includes(this.filterBySearch.toLowerCase());
+    })
+  }
+
+  filterContactsByInitialLetter(letter: string): Contact[] {
+    return this.filterContactsBySearch().filter(contact => {
       return contact.name.toLowerCase().startsWith(letter.toLowerCase());
     })
   }
-  
+
 }
